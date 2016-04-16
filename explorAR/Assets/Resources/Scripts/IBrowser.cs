@@ -6,5 +6,7 @@ namespace Explorar {
 
 		void ShowNext();
 		void ShowPrevious();
+		void SetCurrentIndex(int index);
+		int GetCurrentIndex();
 	}
 }

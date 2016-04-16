@@ -29,7 +29,16 @@ public class BrowserBehaviour : MonoBehaviour, IBrowser {
 
 		selectHouse (currentHouseIndex);
 	}
-	
+
+	public void SetCurrentIndex(int index) {
+		currentHouseIndex = index;
+		selectHouse (index);
+	}
+
+	public int GetCurrentIndex() {
+		return currentHouseIndex;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (rotating) {
@@ -66,5 +75,9 @@ public class BrowserBehaviour : MonoBehaviour, IBrowser {
 			houses [i].transform.localScale = new Vector3 (smallScale, smallScale, smallScale);
 		}
 		houses [index].transform.localScale = new Vector3(largeScale, largeScale, largeScale);
+	}
+
+	public void SelectCurrent() {
+		
 	}
 }
