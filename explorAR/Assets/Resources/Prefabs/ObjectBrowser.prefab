@@ -80,6 +80,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426644}
+  - 114: {fileID: 11452520}
   m_Layer: 0
   m_Name: ObjectBrowser
   m_TagString: Untagged
@@ -432,6 +433,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11452520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd4606643e43d045b850ae3834bc91a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
