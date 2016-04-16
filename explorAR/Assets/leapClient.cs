@@ -105,7 +105,7 @@ public class leapClient : MonoBehaviour {
 			if(jsonFrame["hands"].Count>0){
 				ParseFrame(jsonFrame);
 			}else{
-				GameObject.Find ("Cube").GetComponent<rotate> ().rotating = false;
+				GameObject.Find ("model").GetComponent<rotate> ().rotating = false;
 				leftHand.valid = false;
 //				leftHand.handObj.GetComponent<Renderer>().enabled=false;
 				rightHand.valid = false;
@@ -147,7 +147,7 @@ public class leapClient : MonoBehaviour {
 
 		Debug.Log ("ciao");
 
-		if (jsonFrame ["hands"].Count > 0) {
+		if (jsonFrame ["hands"].Count == 1) {
 			string handType = jsonFrame ["hands"] [0] ["type"];
 			if (handType == "right") {
 				rightHand.valid = true;
@@ -158,6 +158,14 @@ public class leapClient : MonoBehaviour {
 				rightHand.valid = false;
 
 			}
+		}else if(jsonFrame ["hands"].Count == 2){
+			Vector3 hand1 = new Vector3 (float.Parse(jsonFrame ["hands"] [0] ["palmPosition"] [0]),
+				float.Parse( jsonFrame ["hands"] [0] ["palmPosition"] [1]), float.Parse(jsonFrame ["hands"] [0] ["palmPosition"] [2]));
+			Vector3 hand2 = new Vector3 (float.Parse(jsonFrame ["hands"] [1] ["palmPosition"] [0]),
+				float.Parse(jsonFrame ["hands"] [1] ["palmPosition"] [1]), float.Parse(jsonFrame ["hands"] [1] ["palmPosition"] [2]));
+			Debug.Log(Vector3.Distance(hand1,hand2));
+			GameObject.Find ("model").GetComponent<expode> ().distance (Vector3.Distance (hand1, hand2));
+			
 		} else {
 			Debug.Log ("no hand");
 		}
@@ -167,16 +175,16 @@ public class leapClient : MonoBehaviour {
 		}else if(leftHand.valid && !rightHand.valid){
 			//			rightHand.handObj.GetComponent<Renderer>().enabled=false;
 			Debug.Log("left");
-			GameObject.Find ("Cube").GetComponent<rotate> ().rotating = true;
-			GameObject.Find ("Cube").GetComponent<rotate> ().dir = "cw";
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = true;
+			GameObject.Find ("model").GetComponent<rotate> ().dir = "cw";
 		}else if(!leftHand.valid && rightHand.valid){
 			//			leftHand.handObj.GetComponent<Renderer>().enabled=false;
 			Debug.Log("right");
-			GameObject.Find ("Cube").GetComponent<rotate> ().rotating = true;
-			GameObject.Find ("Cube").GetComponent<rotate> ().dir = "ccw";
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = true;
+			GameObject.Find ("model").GetComponent<rotate> ().dir = "ccw";
 		}else if(!leftHand.valid && !rightHand.valid){
 			Debug.Log("no hands");
-			GameObject.Find ("Cube").GetComponent<rotate> ().rotating = false;
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = false;
 
 		}
 
@@ -292,16 +300,16 @@ public class leapClient : MonoBehaviour {
 		}else if(leftHand.valid && !rightHand.valid){
 //			rightHand.handObj.GetComponent<Renderer>().enabled=false;
 			Debug.Log("left");
-			GameObject.Find ("Cube").GetComponent<rotate> ().rotating = true;
-			GameObject.Find ("Cube").GetComponent<rotate> ().dir = "cw";
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = true;
+			GameObject.Find ("model").GetComponent<rotate> ().dir = "cw";
 		}else if(!leftHand.valid && rightHand.valid){
 //			leftHand.handObj.GetComponent<Renderer>().enabled=false;
 			Debug.Log("right");
-			GameObject.Find ("Cube").GetComponent<rotate> ().rotating = true;
-			GameObject.Find ("Cube").GetComponent<rotate> ().dir = "ccw";
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = true;
+			GameObject.Find ("model").GetComponent<rotate> ().dir = "ccw";
 		}else if(!leftHand.valid && !rightHand.valid){
 			Debug.Log("no hands");
-			GameObject.Find ("Cube").GetComponent<rotate> ().rotating = false;
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = false;
 
 		}
 		
