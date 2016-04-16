@@ -125,6 +125,7 @@
      <Compile Include="Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
      <Compile Include="Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
      <Compile Include="Assets\Scripts\BrowserBehaviour.cs" />
+     <Compile Include="Assets\Scripts\BrowserLoader.cs" />
      <Compile Include="Assets\Scripts\IBrowser.cs" />
      <Compile Include="Assets\Vuforia\Scripts\BackgroundPlaneBehaviour.cs" />
      <Compile Include="Assets\Vuforia\Scripts\CloudRecoBehaviour.cs" />
