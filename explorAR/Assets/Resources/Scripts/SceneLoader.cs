@@ -23,6 +23,6 @@ public class SceneLoader : MonoBehaviour {
 		Debug.Log ("loading house scene...");
 		Destroy (browser);
 		PlayerPrefs.SetInt ("currentHouseIndex", index);
-		SceneManager.LoadScene (1);
+		SceneManager.LoadScene (2);
 	}
 }

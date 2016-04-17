@@ -25,16 +25,19 @@ public class leapClient : MonoBehaviour {
 	public WebCamTexture text;
 	public int frameRate;
 	public float rotationsPerMinute = 10.0f;
-
+	public float timer;
+	bool twoHands;
 
 	// Use this for initialization
 	void Start () {
+		
 		Application.targetFrameRate = 30;
 		scale = 200f;
 		rightHand = new handModel ("right");
 		prevRightHand = new handModel ("right");
 		prevLeftHand = new handModel ("left");
 		leftHand = new handModel ("left");
+		twoHands = false;
 //		rightHand.handObj = GameObject.Find ("male_arm_right");
 //		rightHand.forearm = GameObject.Find ("Bip01 R Forearm");
 //		rightHand.initialArmRotation = rightHand.forearm.transform.rotation;
@@ -112,6 +115,9 @@ public class leapClient : MonoBehaviour {
 //				rightHand.handObj.GetComponent<Renderer>().enabled=false;
 			}
 		}
+
+
+
 	
 	}
 //
@@ -148,6 +154,7 @@ public class leapClient : MonoBehaviour {
 		Debug.Log ("ciao");
 
 		if (jsonFrame ["hands"].Count == 1) {
+			
 			string handType = jsonFrame ["hands"] [0] ["type"];
 			if (handType == "right") {
 				rightHand.valid = true;
@@ -159,6 +166,10 @@ public class leapClient : MonoBehaviour {
 
 			}
 		}else if(jsonFrame ["hands"].Count == 2){
+			rightHand.valid = true;
+			leftHand.valid = true;
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = false;
+			twoHands = true;
 			Vector3 hand1 = new Vector3 (float.Parse(jsonFrame ["hands"] [0] ["palmPosition"] [0]),
 				float.Parse( jsonFrame ["hands"] [0] ["palmPosition"] [1]), float.Parse(jsonFrame ["hands"] [0] ["palmPosition"] [2]));
 			Vector3 hand2 = new Vector3 (float.Parse(jsonFrame ["hands"] [1] ["palmPosition"] [0]),
@@ -171,13 +182,14 @@ public class leapClient : MonoBehaviour {
 		}
 
 		if(leftHand.valid && rightHand.valid){
+			GameObject.Find ("model").GetComponent<rotate> ().rotating = false;
 			Debug.Log("right & left");
-		}else if(leftHand.valid && !rightHand.valid){
+		}else if(leftHand.valid && !rightHand.valid && !twoHands){
 			//			rightHand.handObj.GetComponent<Renderer>().enabled=false;
 			Debug.Log("left");
 			GameObject.Find ("model").GetComponent<rotate> ().rotating = true;
 			GameObject.Find ("model").GetComponent<rotate> ().dir = "cw";
-		}else if(!leftHand.valid && rightHand.valid){
+		}else if(!leftHand.valid && rightHand.valid && !twoHands){
 			//			leftHand.handObj.GetComponent<Renderer>().enabled=false;
 			Debug.Log("right");
 			GameObject.Find ("model").GetComponent<rotate> ().rotating = true;
@@ -191,52 +203,52 @@ public class leapClient : MonoBehaviour {
 
 		for (int h=0; h<jsonFrame["hands"].Count; h++) {
 			string type = jsonFrame ["hands"][h]["type"];
-			string temp = jsonFrame ["hands"] [h] ["palmPosition"] [0];
-			float x = float.Parse (temp)/(scale/12f) ;
-			temp = jsonFrame ["hands"] [h] ["palmPosition"] [1];
-			float y = (float.Parse (temp)/(scale/15f)) -8f;
-			temp = jsonFrame ["hands"] [h] ["palmPosition"] [2];
-			float z = (-float.Parse (temp)/(scale/4f));
-			Vector3 pos = new Vector3 (x, y, z);
-			
-			//gets palm normal 
-			temp = jsonFrame ["hands"] [h] ["palmNormal"] [0];
-			x = float.Parse (temp);
-			temp = jsonFrame ["hands"] [h] ["palmNormal"] [1];
-			y = float.Parse (temp);			
-			temp = jsonFrame ["hands"] [h] ["palmNormal"] [2];
-			z = float.Parse (temp);
-			Vector3 normal = new Vector3 (x, y, -z);
-			normal = normal.normalized;
-			//angles from normal
-			float rotx = ((float)Mathf.Atan2 (y, z) * Mathf.Rad2Deg ); 
-			float rotz = ((float)Mathf.Atan2 (y, x) * Mathf.Rad2Deg );
-			temp = jsonFrame ["hands"] [h] ["direction"] [0];
-			x = float.Parse (temp);
-			temp = jsonFrame ["hands"] [h] ["direction"] [1];
-			y = float.Parse (temp);
-			temp = jsonFrame ["hands"] [h] ["direction"] [2];			 
-			z = float.Parse (temp);
-			Vector3 direction = new Vector3(x,y,z);
-			direction=direction.normalized;
-			rotx = ((float)Mathf.Atan2 (y, z) * Mathf.Rad2Deg );
-			float roty = Mathf.Atan2 (x, z) * Mathf.Rad2Deg;
-
-			temp = jsonFrame ["hands"] [h] ["elbow"] [0];
-			x = float.Parse (temp)/(scale/4f) ;
-			temp = jsonFrame ["hands"] [h] ["elbow"] [1];
-			y = (float.Parse (temp)/(scale/2.8f)) -8f;
-			temp = jsonFrame ["hands"] [h] ["elbow"] [2];
-			z = (-float.Parse (temp)/(scale/2.8f));
-			Vector3 elbow = new Vector3(x,y,z);
-
-			temp = jsonFrame ["hands"] [h] ["wrist"] [0];
-			x = float.Parse (temp)/(scale/4f) ;
-			temp = jsonFrame ["hands"] [h] ["wrist"] [1];
-			y = (float.Parse (temp)/(scale/2.8f)) -8f;
-			temp = jsonFrame ["hands"] [h] ["wrist"] [2];
-			z = (-float.Parse (temp)/(scale/2.8f));
-			Vector3 wrist = new Vector3(x,y,z);
+//			string temp = jsonFrame ["hands"] [h] ["palmPosition"] [0];
+//			float x = float.Parse (temp)/(scale/12f) ;
+//			temp = jsonFrame ["hands"] [h] ["palmPosition"] [1];
+//			float y = (float.Parse (temp)/(scale/15f)) -8f;
+//			temp = jsonFrame ["hands"] [h] ["palmPosition"] [2];
+//			float z = (-float.Parse (temp)/(scale/4f));
+//			Vector3 pos = new Vector3 (x, y, z);
+//			
+//			//gets palm normal 
+//			temp = jsonFrame ["hands"] [h] ["palmNormal"] [0];
+//			x = float.Parse (temp);
+//			temp = jsonFrame ["hands"] [h] ["palmNormal"] [1];
+//			y = float.Parse (temp);			
+//			temp = jsonFrame ["hands"] [h] ["palmNormal"] [2];
+//			z = float.Parse (temp);
+//			Vector3 normal = new Vector3 (x, y, -z);
+//			normal = normal.normalized;
+//			//angles from normal
+//			float rotx = ((float)Mathf.Atan2 (y, z) * Mathf.Rad2Deg ); 
+//			float rotz = ((float)Mathf.Atan2 (y, x) * Mathf.Rad2Deg );
+//			temp = jsonFrame ["hands"] [h] ["direction"] [0];
+//			x = float.Parse (temp);
+//			temp = jsonFrame ["hands"] [h] ["direction"] [1];
+//			y = float.Parse (temp);
+//			temp = jsonFrame ["hands"] [h] ["direction"] [2];			 
+//			z = float.Parse (temp);
+//			Vector3 direction = new Vector3(x,y,z);
+//			direction=direction.normalized;
+//			rotx = ((float)Mathf.Atan2 (y, z) * Mathf.Rad2Deg );
+//			float roty = Mathf.Atan2 (x, z) * Mathf.Rad2Deg;
+//
+//			temp = jsonFrame ["hands"] [h] ["elbow"] [0];
+//			x = float.Parse (temp)/(scale/4f) ;
+//			temp = jsonFrame ["hands"] [h] ["elbow"] [1];
+//			y = (float.Parse (temp)/(scale/2.8f)) -8f;
+//			temp = jsonFrame ["hands"] [h] ["elbow"] [2];
+//			z = (-float.Parse (temp)/(scale/2.8f));
+//			Vector3 elbow = new Vector3(x,y,z);
+//
+//			temp = jsonFrame ["hands"] [h] ["wrist"] [0];
+//			x = float.Parse (temp)/(scale/4f) ;
+//			temp = jsonFrame ["hands"] [h] ["wrist"] [1];
+//			y = (float.Parse (temp)/(scale/2.8f)) -8f;
+//			temp = jsonFrame ["hands"] [h] ["wrist"] [2];
+//			z = (-float.Parse (temp)/(scale/2.8f));
+//			Vector3 wrist = new Vector3(x,y,z);
 
 			if(type=="right"){
 				rightHand.valid=true;
@@ -247,47 +259,6 @@ public class leapClient : MonoBehaviour {
 				rightHand.valid=false;
 
 			}
-
-
-//			if(type=="right"){
-//				rightHand.valid=true;
-//				rightHand.handObj.GetComponent<Renderer>().enabled = true;
-//				rightHand.palmDirection = direction;
-//				rightHand.palmNormal = normal;
-//				rightHand.wristPosition = wrist;
-//				rightHand.elbowPosition = elbow;
-//				rightHand.id = int.Parse(jsonFrame ["hands"] [h]["id"]);
-//				rightHand.setPalmPos (pos);
-//				rightHand.forearm.transform.position = rightHand.getPalmPos ();
-//				Quaternion roll = Quaternion.Euler(0, 0, rotz+90f);
-//				Quaternion pitchYaw = Quaternion.Euler(rotx+180f, -roty+180f, 270f);
-//				roll = roll * rightHand.initialArmRotation;
-//				pitchYaw = pitchYaw * rightHand.hand.transform.parent.rotation;
-//				rightHand.forearm.transform.rotation = roll;
-//				rightHand.hand.transform.rotation = pitchYaw;
-//
-//			}else{
-//				leftHand.valid=true;
-//				leftHand.handObj.GetComponent<Renderer>().enabled=true;
-//				leftHand.wristPosition=wrist;
-//				leftHand.elbowPosition=elbow;
-//
-//				leftHand.palmDirection=direction;
-//				leftHand.palmNormal=normal;
-//
-//				leftHand.id = int.Parse(jsonFrame ["hands"] [h]["id"]);
-//				leftHand.setPalmPos (pos);
-//				leftHand.forearm.transform.position = leftHand.getPalmPos ();
-//				Quaternion roll = Quaternion.Euler(0, 0, rotz+90f);
-//				Quaternion pitchYaw = Quaternion.Euler(rotx+180f, -roty+180f, 90f);
-//				roll = roll * leftHand.initialArmRotation;
-//				pitchYaw = pitchYaw * leftHand.hand.transform.parent.rotation;
-//				leftHand.forearm.transform.rotation = roll;
-//				leftHand.hand.transform.rotation = pitchYaw;
-//
-//
-//			}
-
 
 
 
@@ -313,45 +284,45 @@ public class leapClient : MonoBehaviour {
 
 		}
 		
-		for (int p = 0; p<jsonFrame["pointables"].Count; p++) {
-			int hId = int.Parse(jsonFrame["pointables"][p]["handId"]);
-			fingerModel f = new fingerModel();
-			if(leftHand.id==hId){
-				f = leftHand.fingers[int.Parse(jsonFrame["pointables"][p]["type"])];
-			}else{
-				f = rightHand.fingers[int.Parse(jsonFrame["pointables"][p]["type"])];
-			}
-			f.handId = int.Parse(jsonFrame["pointables"][p]["handId"]);
-//			Debug.Log(jsonFrame["pointables"][p]["bases"].Count);
-			f.mcpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][1][0][0]),
-			                              float.Parse(jsonFrame["pointables"][p]["bases"][1][0][1]),
-			                              -float.Parse(jsonFrame["pointables"][p]["bases"][1][0][2]));
-			f.intDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][2][0][0]),
-			                              float.Parse(jsonFrame["pointables"][p]["bases"][2][0][1]),
-			                              -float.Parse(jsonFrame["pointables"][p]["bases"][2][0][2]));
-			f.disDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][3][0][0]),
-			                              float.Parse(jsonFrame["pointables"][p]["bases"][3][0][1]),
-			                             -float.Parse(jsonFrame["pointables"][p]["bases"][3][0][2]));
-			f.mcpUpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][1][1][0]),
-			                              float.Parse(jsonFrame["pointables"][p]["bases"][1][1][1]),
-			                              -float.Parse(jsonFrame["pointables"][p]["bases"][1][1][2]));
-			f.intUpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][2][1][0]),
-			                              float.Parse(jsonFrame["pointables"][p]["bases"][2][1][1]),
-			                              -float.Parse(jsonFrame["pointables"][p]["bases"][2][1][2]));
-			f.disUpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][3][1][0]),
-			                              float.Parse(jsonFrame["pointables"][p]["bases"][3][1][1]),
-			                              -float.Parse(jsonFrame["pointables"][p]["bases"][3][1][2]));
-			f.mcpFwdDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][1][2][0]),
-			                                float.Parse(jsonFrame["pointables"][p]["bases"][1][2][1]),
-			                                -float.Parse(jsonFrame["pointables"][p]["bases"][1][2][2]));
-			f.intFwdDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][2][2][0]),
-			                                float.Parse(jsonFrame["pointables"][p]["bases"][2][2][1]),
-			                                -float.Parse(jsonFrame["pointables"][p]["bases"][2][2][2]));
-			f.disFwdDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][3][2][0]),
-			                                float.Parse(jsonFrame["pointables"][p]["bases"][3][2][1]),
-			                                -float.Parse(jsonFrame["pointables"][p]["bases"][3][2][2]));
-
-		}
+//		for (int p = 0; p<jsonFrame["pointables"].Count; p++) {
+//			int hId = int.Parse(jsonFrame["pointables"][p]["handId"]);
+//			fingerModel f = new fingerModel();
+//			if(leftHand.id==hId){
+//				f = leftHand.fingers[int.Parse(jsonFrame["pointables"][p]["type"])];
+//			}else{
+//				f = rightHand.fingers[int.Parse(jsonFrame["pointables"][p]["type"])];
+//			}
+//			f.handId = int.Parse(jsonFrame["pointables"][p]["handId"]);
+////			Debug.Log(jsonFrame["pointables"][p]["bases"].Count);
+//			f.mcpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][1][0][0]),
+//			                              float.Parse(jsonFrame["pointables"][p]["bases"][1][0][1]),
+//			                              -float.Parse(jsonFrame["pointables"][p]["bases"][1][0][2]));
+//			f.intDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][2][0][0]),
+//			                              float.Parse(jsonFrame["pointables"][p]["bases"][2][0][1]),
+//			                              -float.Parse(jsonFrame["pointables"][p]["bases"][2][0][2]));
+//			f.disDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][3][0][0]),
+//			                              float.Parse(jsonFrame["pointables"][p]["bases"][3][0][1]),
+//			                             -float.Parse(jsonFrame["pointables"][p]["bases"][3][0][2]));
+//			f.mcpUpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][1][1][0]),
+//			                              float.Parse(jsonFrame["pointables"][p]["bases"][1][1][1]),
+//			                              -float.Parse(jsonFrame["pointables"][p]["bases"][1][1][2]));
+//			f.intUpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][2][1][0]),
+//			                              float.Parse(jsonFrame["pointables"][p]["bases"][2][1][1]),
+//			                              -float.Parse(jsonFrame["pointables"][p]["bases"][2][1][2]));
+//			f.disUpDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][3][1][0]),
+//			                              float.Parse(jsonFrame["pointables"][p]["bases"][3][1][1]),
+//			                              -float.Parse(jsonFrame["pointables"][p]["bases"][3][1][2]));
+//			f.mcpFwdDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][1][2][0]),
+//			                                float.Parse(jsonFrame["pointables"][p]["bases"][1][2][1]),
+//			                                -float.Parse(jsonFrame["pointables"][p]["bases"][1][2][2]));
+//			f.intFwdDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][2][2][0]),
+//			                                float.Parse(jsonFrame["pointables"][p]["bases"][2][2][1]),
+//			                                -float.Parse(jsonFrame["pointables"][p]["bases"][2][2][2]));
+//			f.disFwdDirection = new Vector3 (float.Parse(jsonFrame["pointables"][p]["bases"][3][2][0]),
+//			                                float.Parse(jsonFrame["pointables"][p]["bases"][3][2][1]),
+//			                                -float.Parse(jsonFrame["pointables"][p]["bases"][3][2][2]));
+//
+//		}
 
 //		if (leftHand.valid) {
 //			for(int p = 0; p < leftHand.fingers.Length; p++){
