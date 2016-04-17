@@ -19,10 +19,18 @@ public class expode : MonoBehaviour {
 	public void distance(float distance){
 	
 		if (distance > 250f && !exploded) {
-			gameObject.GetComponent<Animation> ().Play ("pullApart");
+			if (PlayerPrefs.GetInt ("currentHouseIndex") == 1) {
+				gameObject.GetComponent<Animation> ().Play ("pullApart");
+			} else if (PlayerPrefs.GetInt ("currentHouseIndex") == 2){
+				gameObject.GetComponent<Animation> ().Play ("explode2");
+			}
 			exploded = true;
 		}if (distance < 250f && exploded) {
-			gameObject.GetComponent<Animation> ().Play ("pullTogether");
+			if (PlayerPrefs.GetInt ("currentHouseIndex") == 1) {
+				gameObject.GetComponent<Animation> ().Play ("pullTogether");
+			} else if (PlayerPrefs.GetInt ("currentHouseIndex") == 2){
+				gameObject.GetComponent<Animation> ().Play ("implode2");
+			}
 			exploded = false;
 		}
 	}
