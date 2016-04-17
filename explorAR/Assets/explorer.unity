@@ -130,7 +130,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
       propertyPath: mDeviceNameSetInEditor
-      value: FaceTime HD Camera
+      value: USB Camera
       objectReference: {fileID: 0}
     - target: {fileID: 11442664, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
       propertyPath: mParentAnchorPoint
@@ -139,6 +139,10 @@ Prefab:
     - target: {fileID: 11442664, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
       propertyPath: mPrimaryCamera
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
+      propertyPath: mFlipHorizontally
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
@@ -163,6 +167,7 @@ MonoBehaviour:
   text: {fileID: 0}
   frameRate: 0
   rotationsPerMinute: 10
+  timer: 0
 --- !u!1 &529688028
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +358,7 @@ Animation:
   m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: f24b0eadf9c344415afd09c7106034bf, type: 2}
+  - {fileID: 7400000, guid: 19e60101fd8ea4550b16d9b6272fb788, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
