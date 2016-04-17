@@ -17,19 +17,21 @@ public class expode : MonoBehaviour {
 	}
 
 	public void distance(float distance){
-	
+		Debug.Log (PlayerPrefs.GetInt ("currentHouseIndex"));
 		if (distance > 250f && !exploded) {
-			if (PlayerPrefs.GetInt ("currentHouseIndex") == 1) {
+			if (PlayerPrefs.GetInt ("currentHouseIndex") == 0 || PlayerPrefs.GetInt ("currentHouseIndex") == 2 || PlayerPrefs.GetInt ("currentHouseIndex") == 4 ) {
 				gameObject.GetComponent<Animation> ().Play ("pullApart");
-			} else if (PlayerPrefs.GetInt ("currentHouseIndex") == 2){
-				gameObject.GetComponent<Animation> ().Play ("explode2");
+			} else if (PlayerPrefs.GetInt ("currentHouseIndex") == 1 || PlayerPrefs.GetInt ("currentHouseIndex") == 3 ){
+				Debug.Log("Cliups "+gameObject.GetComponent<Animation> ().GetClipCount ());
+				gameObject.GetComponent<Animation> ().Play ("explode");
+
 			}
 			exploded = true;
 		}if (distance < 250f && exploded) {
-			if (PlayerPrefs.GetInt ("currentHouseIndex") == 1) {
+			if (PlayerPrefs.GetInt ("currentHouseIndex") == 0 || PlayerPrefs.GetInt ("currentHouseIndex") == 2 || PlayerPrefs.GetInt ("currentHouseIndex") == 4 ) {
 				gameObject.GetComponent<Animation> ().Play ("pullTogether");
-			} else if (PlayerPrefs.GetInt ("currentHouseIndex") == 2){
-				gameObject.GetComponent<Animation> ().Play ("implode2");
+			} else if (PlayerPrefs.GetInt ("currentHouseIndex") == 1 || PlayerPrefs.GetInt ("currentHouseIndex") == 3 ){
+				gameObject.GetComponent<Animation> ().Play ("implode");
 			}
 			exploded = false;
 		}

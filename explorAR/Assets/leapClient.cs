@@ -32,6 +32,13 @@ public class leapClient : MonoBehaviour {
 	void Start () {
 		
 		Application.targetFrameRate = 30;
+
+		int num = PlayerPrefs.GetInt ("currentHouseIndex");
+		GameObject model =  GameObject.Instantiate (Resources.Load<GameObject> ("Prefabs/House" + (num + 1)));
+		model.name = "model";
+		model.transform.position = Vector3.zero;
+		model.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+		model.transform.parent = GameObject.Find ("FrameMarker0").transform;
 		scale = 200f;
 		rightHand = new handModel ("right");
 		prevRightHand = new handModel ("right");

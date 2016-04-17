@@ -32,6 +32,7 @@ public class leapInteraction : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Application.targetFrameRate = 30;
+
 		scale = 200f;
 		timer = maxTimer;
 		gestureRecognized = false;

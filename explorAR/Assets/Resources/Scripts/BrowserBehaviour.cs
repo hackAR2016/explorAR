@@ -7,6 +7,7 @@ public class BrowserBehaviour : MonoBehaviour, IBrowser {
 	private int houseCount = 5;
 	private int currentHouseIndex = 3;
 
+	public float scale = 2.5f;
 	public float smallScale = 0.5f;
 	public float largeScale = 1f;
 
@@ -27,12 +28,12 @@ public class BrowserBehaviour : MonoBehaviour, IBrowser {
 		houses[3] = GameObject.Find ("FrameMarker0/ObjectBrowser/House4");
 		houses[4] = GameObject.Find ("FrameMarker0/ObjectBrowser/House5");
 
-		selectHouse (currentHouseIndex);
+		selectHouse (currentHouseIndex, -1);
 	}
 
 	public void SetCurrentIndex(int index) {
 		currentHouseIndex = index;
-		selectHouse (index);
+		selectHouse (index, -1);
 	}
 
 	public int GetCurrentIndex() {
@@ -53,28 +54,29 @@ public class BrowserBehaviour : MonoBehaviour, IBrowser {
 	}
 
 	public void ShowNext() {
+		int temp = currentHouseIndex;
 		currentHouseIndex = (currentHouseIndex + 1) % houseCount;
-		selectHouse (currentHouseIndex);
+		selectHouse (currentHouseIndex, temp);
 		start = transform.rotation;
 		target = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3 (0, 0, 360 / 5));
 		rotating = true;
 	}
 
 	public void ShowPrevious() {
+		int temp = currentHouseIndex;
 		currentHouseIndex = currentHouseIndex - 1;
 		if (currentHouseIndex == -1)
 			currentHouseIndex = houseCount - 1;
-		selectHouse (currentHouseIndex);
+		selectHouse (currentHouseIndex, temp);
 		start = transform.rotation;
 		target = Quaternion.Euler(transform.rotation.eulerAngles - new Vector3 (0, 0, 360 / 5));
 		rotating = true;
 	}
 
-	private void selectHouse(int index) {
-		for(int i = 0; i < houseCount; i++) {
-			houses [i].transform.localScale = new Vector3 (smallScale, smallScale, smallScale);
-		}
-		houses [index].transform.localScale = new Vector3(largeScale, largeScale, largeScale);
+	private void selectHouse(int index, int previousIndex) {
+		if (previousIndex != -1)
+			houses [previousIndex].transform.localScale /= scale;
+		houses [index].transform.localScale *= scale;
 	}
 
 	public void SelectCurrent() {
